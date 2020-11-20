@@ -1,25 +1,39 @@
-"use strict";
-function countrySearch(){
-    var query = document.getElementById("country").value;
-    var httprequest = new XMLHttpRequest();
-    httprequest.onreadystatechange = function()
-    {
-        if (this.readyState == 4 && this.status == 200)
-        {
-            document.getElementById("result").innerHTML = this.responseText;
-            alert(this.responseText.replace(/<\/?[^>]+(>|$)/g, " ")); // Regular Expression to remove HTML Tags 
+document.addEventListener('DOMContentLoaded', function(){
+    
+    document.getElementById("lookup").addEventListener('click',(event) => {
+          event.preventDefault();
+          xmlhttpreq=new XMLHttpRequest();
+          
+          xmlhttpreq.onreadystatechange = function(){
+          if(xmlhttpreq.readyState===XMLHttpRequest.DONE && xmlhttpreq.status===200){
+            document.getElementById("result").innerHTML=xmlhttpreq.responseText;
+          }
+          if( xmlhttpreq.readyState===XMLHttpRequest.DONE && xmlhttpreq.status===404){
+            alert("ERROR:");
+          }
+            
         }
-    };
-    
-    if (document.getElementById('allChkBox').checked)
-    {
-        var url = "world.php?all=true";
-    }
-    else
-    {
-        var url = "world.php?country="+query;
-    }
-    
-    httprequest.open("GET",url,true);
-    httprequest.send("");
-}
+            xmlhttpreq.open("GET","http://localhost/info2180-lab5/world.php?country="+(document.getElementById("country").value),true);
+            xmlhttpreq.send();
+  
+      });
+      
+      document.getElementById("lookupCities").addEventListener('click',(event) => {
+        event.preventDefault();
+        xmlhttpreq=new XMLHttpRequest();
+  
+        xmlhttpreq.onreadystatechange = function(){
+          if(xmlhttpreq.readyState===XMLHttpRequest.DONE && xmlhttpreq.status===200){
+            document.getElementById("result").innerHTML=xmlhttpreq.responseText;
+          }
+          if( xmlhttpreq.readyState===XMLHttpRequest.DONE && xmlhttpreq.status===404){
+            alert("ERROR:");
+          }
+            
+        }
+        xmlhttpreq.open("GET","http://localhost/info2180-lab5/world.php?country="+(document.getElementById("country").value)+"context=cities",true);;
+          xmlhttpreq.send();
+  
+    });
+      
+  }, false);
